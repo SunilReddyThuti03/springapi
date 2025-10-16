@@ -35,4 +35,11 @@ public class StudentEntity {
     public String getEmail() {
         return email;
     }
+
+    public void setName(String value) {
+        this.name = value;
+    }
+    public void setEmail(String value){
+        this.email = value;
+    }
 }
