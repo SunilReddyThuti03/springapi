@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -58,26 +57,8 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDto updateStudent(Long id, StudentEntryDto studentEntryDto){
         StudentEntity student= studentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("id dosnt exist"));
-       StudentEntity student1 = modelMapper.map(student, StudentEntity.class);
-        StudentEntity student2 = studentRepository.save(student1);
-        return modelMapper.map(student2, StudentDto.class);
-    }
-
-    @Override
-    public StudentDto updateStudentPartial(Long id, Map<String, Object> updates){
-        StudentEntity student = studentRepository.findById(id).orElseThrow(()-> new IllegalArgumentException(("id not found")));
-        updates.forEach((field, value) ->{
-            switch (field){
-                case "name": student.setName((String) value);
-                break;
-                case "email": student.setEmail((String) value);
-                break;
-                default:
-                    throw new IllegalArgumentException("Field is not supported");
-            }
-        });
-        StudentEntity savedStudent = studentRepository.save(student);
-        return modelMapper.map(savedStudent, StudentDto.class);
-
+        student = modelMapper.map(student, StudentEntity.class);
+        student = studentRepository.save(student);
+        return modelMapper.map(student, StudentDto.class);
     }
 }
